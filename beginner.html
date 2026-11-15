@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pharma validation for beginners – CSV tutorial</title>
+<meta name="description" content="Free beginner tutorial by Vijayakumar Chinnamuthu: validation, commissioning, qualification, calibration and verification explained with simple examples, plus the CQV, C&Q, CSV, QA-CSV and CSV automation roles.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{color-scheme:light dark;--bg:light-dark(#ffffff,#0a0d18);--ink:light-dark(#0b0b10,#e8ebf5);--mut:light-dark(#4a4f60,#a3a9bd);--co:light-dark(#1240e0,#5b7cff);--zone:light-dark(#eef2ff,#121a33);--line:light-dark(#d5dcf2,#26304f);--strip:#1240e0;--ok:light-dark(#0f7a4a,#4fd197);--warn:light-dark(#9a5b00,#f0b45a)}
+*{box-sizing:border-box;min-width:0}
+html{scroll-behavior:smooth;scroll-padding-top:80px}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.65 Inter,system-ui,sans-serif;overflow-x:clip}
+h1,h2,h3{font-family:"Space Grotesk",system-ui,sans-serif;letter-spacing:-.02em;line-height:1.15;margin:0}
+a{color:var(--co)}
+.wrap{max-width:1240px;margin:0 auto}
+.band{padding:clamp(28px,4vw,56px) max(5vw,16px)}
+.strip{background:var(--strip);color:#fff;padding:12px max(5vw,16px);position:sticky;top:0;z-index:5}
+.strip .wrap{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 24px}
+.strip b{font-family:"Space Grotesk",sans-serif;font-weight:600;font-size:17px}
+.strip a{color:#fff;font-size:15px}
+h1{font-size:clamp(32px,4.6vw,48px);font-weight:700;max-width:20ch}
+.lead{font-size:clamp(17px,1.6vw,20px);color:var(--mut);max-width:66ch;margin:14px 0 0}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;margin-top:36px;align-items:start}
+.toc{position:sticky;top:76px;border-left:3px solid var(--co);padding-left:16px}
+.toc b{display:block;font-family:"Space Grotesk",sans-serif;font-size:15px;margin-bottom:6px}
+.toc ol{margin:0;padding-left:20px;font-size:15px}
+.toc li{margin:6px 0}
+.toc a{text-decoration:none;color:var(--ink)}
+.toc a:hover{color:var(--co);text-decoration:underline}
+article{max-width:820px}
+.lesson{padding:0 0 44px;margin-bottom:44px;border-bottom:1px solid var(--line)}
+.lesson:last-child{border-bottom:0}
+.num{display:inline-block;font:600 14px "Space Grotesk",sans-serif;color:var(--co);background:var(--zone);padding:3px 10px;border-radius:3px;margin-bottom:10px}
+.lesson h2{font-size:clamp(26px,3vw,34px);font-weight:700;margin-bottom:12px}
+.lesson h3{font-size:21px;font-weight:600;margin:28px 0 8px}
+p{margin:0 0 14px}
+ul,ol{margin:0 0 14px;padding-left:22px}
+li{margin-bottom:6px}
+.box{border:1px solid var(--line);border-left:4px solid var(--co);border-radius:4px;padding:16px 18px;margin:18px 0;background:var(--zone)}
+.box b.t{display:block;font-family:"Space Grotesk",sans-serif;font-size:16px;margin-bottom:6px;color:var(--co)}
+.box p:last-child,.box ul:last-child{margin-bottom:0}
+.box.ok{border-left-color:var(--ok)}
+.box.ok b.t{color:var(--ok)}
+.box.warn{border-left-color:var(--warn)}
+.box.warn b.t{color:var(--warn)}
+.terms{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin:18px 0}
+.term{border:1px solid var(--line);border-radius:6px;padding:16px 18px}
+.term h3{margin:0 0 6px;font-size:19px;color:var(--co)}
+.term p{font-size:15.5px;margin:0 0 8px}
+.term .ex{font-size:15px;color:var(--mut);margin:0}
+.tw{overflow-x:auto;margin:18px 0}
+table{width:100%;border-collapse:collapse;font-size:15px;min-width:620px}
+th,td{text-align:left;vertical-align:top;padding:10px 12px;border-bottom:1px solid var(--line)}
+th{font-family:"Space Grotesk",sans-serif;font-weight:600;background:var(--zone)}
+td:first-child{font-weight:600;white-space:nowrap}
+.flow{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:18px 0;font-size:15px}
+.flow span{border:2px solid var(--co);border-radius:4px;padding:6px 12px;font-weight:600}
+.flow i{font-style:normal;color:var(--co);font-weight:700}
+.role{border:1px solid var(--line);border-radius:6px;padding:20px 22px;margin:18px 0}
+.role h3{margin:0 0 4px;color:var(--co)}
+.role .sub{color:var(--mut);font-size:15px;margin:0 0 12px}
+.role dl{display:grid;grid-template-columns:9.5em minmax(0,1fr);gap:6px 14px;margin:0;font-size:15.5px}
+.role dt{font-weight:600}
+.role dd{margin:0}
+.btn{display:inline-flex;align-items:center;min-height:44px;padding:10px 18px;border:2px solid var(--co);border-radius:4px;font-weight:600;text-decoration:none;font-size:15px}
+.btn.solid{background:var(--co);color:#fff}
+.cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:18px}
+footer{padding:18px max(5vw,16px);font-size:14px;color:var(--mut);border-top:1px solid var(--line)}
+@media(max-width:900px){.layout{grid-template-columns:minmax(0,1fr);gap:24px}.toc{position:static}}
+@media(max-width:640px){.terms{grid-template-columns:minmax(0,1fr)}.role dl{grid-template-columns:minmax(0,1fr)}.role dt{margin-top:8px}.strip{position:static}}
+</style>
+</head>
+<body>
+<div class="strip"><div class="wrap">
+  <b>Vijayakumar Chinnamuthu</b>
+  <a href="index.html#tutorial">← Back to the tutorial</a>
+</div></div>
+
+<main class="band"><div class="wrap">
+  <span class="num">Beginner level · free</span>
+  <h1>Pharma validation from zero</h1>
+  <p class="lead">For people who are completely new to pharma. No theory overload: each idea is explained with one practical example you could meet on your first day on site.</p>
+
+  <div class="layout">
+    <nav class="toc" aria-label="Lessons">
+      <b>Lessons</b>
+      <ol>
+        <li><a href="#l1">Why pharma validates</a></li>
+        <li><a href="#l2">The five key words</a></li>
+        <li><a href="#l3">One example, start to finish</a></li>
+        <li><a href="#l4">Documents and signatures</a></li>
+        <li><a href="#l5">Computer systems and CSV</a></li>
+        <li><a href="#l6">Validation roles: which is yours?</a></li>
+        <li><a href="#l7">Your first weeks on site</a></li>
+      </ol>
+    </nav>
+
+    <article>
+
+<!-- LESSON 1 -->
+<section class="lesson" id="l1">
+  <span class="num">Lesson 1</span>
+  <h2>Why pharma validates</h2>
+  <p>A patient cannot test the tablet or injection they take. They trust that every batch is safe, has the right strength and is free from contamination. Testing a few samples at the end is not enough to guarantee this for every unit.</p>
+  <p>So the pharma industry builds quality <strong>into</strong> the way medicines are made: the building, the equipment, the computer systems and the process are all proven to work correctly <strong>before</strong> they are used for products, and they are kept in that proven state afterwards.</p>
+  <div class="box">
+    <b class="t">The one sentence to remember</b>
+    <p>Validation means producing <strong>documented evidence</strong> that something does what it is supposed to do, <strong>consistently</strong>. If it is not written down, reviewed and approved, for an inspector it did not happen.</p>
+  </div>
+  <h3>Who asks for it</h3>
+  <ul>
+    <li><strong>GMP (Good Manufacturing Practice)</strong>: the rules every medicine manufacturer must follow.</li>
+    <li><strong>Regulators</strong> such as the EMA and national agencies in Europe (for example ANSM in France) and the FDA in the USA inspect sites and read the validation documents.</li>
+    <li>Key texts you will hear about: <strong>EU GMP Annex 15</strong> (qualification and validation), <strong>EU GMP Annex 11</strong> and <strong>21 CFR Part 11</strong> (computerised systems and electronic records), and the industry guide <strong>GAMP 5</strong>.</li>
+  </ul>
+  <div class="box warn">
+    <b class="t">What happens if it goes wrong</b>
+    <p>Inspection findings, batches that cannot be released, product recalls and, in the worst case, harm to patients. That is why validation people are taken seriously on site.</p>
+  </div>
+</section>
+
+<!-- LESSON 2 -->
+<section class="lesson" id="l2">
+  <span class="num">Lesson 2</span>
+  <h2>The five key words</h2>
+  <p>These five words are used every day and are often mixed up. Learn the difference and you will already sound like someone from the field. Each one is explained with a simple, everyday example first, then a pharma example.</p>
+
+  <div class="terms">
+    <div class="term">
+      <h3>Calibration</h3>
+      <p>Comparing a measuring instrument with a <strong>certified reference</strong> to check how accurate it is, and adjusting it if needed.</p>
+      <p class="ex"><b>Everyday:</b> checking your kitchen scale with a known 1 kg weight.<br><b>Pharma:</b> a fridge temperature probe reads 5.4 °C while the certified reference thermometer reads 5.0 °C. The allowed tolerance is ±0.5 °C, so it passes. A calibration certificate records the result.</p>
+    </div>
+    <div class="term">
+      <h3>Commissioning</h3>
+      <p>Engineering checks that equipment is <strong>installed correctly and works as designed</strong>, so it is ready to hand over. Mostly technical, done with the supplier.</p>
+      <p class="ex"><b>Everyday:</b> after the plumber installs your water heater, you check the pipes do not leak and hot water comes out.<br><b>Pharma:</b> FAT at the supplier and SAT on site: motors turn the right way, wiring and signals are correct, alarms sound.</p>
+    </div>
+    <div class="term">
+      <h3>Qualification</h3>
+      <p><strong>Documented proof</strong>, approved by QA, that <strong>equipment, utilities or rooms</strong> are fit for their intended use. Done in steps: DQ, IQ, OQ, PQ.</p>
+      <p class="ex"><b>Everyday:</b> proving, with written records, that your new oven reaches and holds 180 °C every time.<br><b>Pharma:</b> proving a cold room stays between 2 and 8 °C, empty and fully loaded, and alarms if it does not.</p>
+    </div>
+    <div class="term">
+      <h3>Validation</h3>
+      <p>Documented proof that a <strong>process, method or computer system</strong> consistently gives the right result. Equipment is <em>qualified</em>; processes and systems are <em>validated</em>.</p>
+      <p class="ex"><b>Everyday:</b> proving your recipe gives the same good cake every time, not just once.<br><b>Pharma:</b> process validation of tablet production, cleaning validation, analytical method validation, and computer system validation (CSV).</p>
+    </div>
+    <div class="term">
+      <h3>Verification</h3>
+      <p>Checking that <strong>one specific requirement</strong> is met, and recording the result. The small building block used inside commissioning, qualification and validation.</p>
+      <p class="ex"><b>Everyday:</b> checking that the oven light switches on when you open the door.<br><b>Pharma:</b> "verify the high-temperature alarm activates at 8.0 °C". Expected result, actual result, pass or fail, signature and date.</p>
+    </div>
+    <div class="term" style="background:var(--zone)">
+      <h3>How they fit together</h3>
+      <p>Calibrated instruments → commissioned equipment → qualified equipment → validated process and systems.</p>
+      <p class="ex">You cannot trust a qualification test if the thermometer used was not calibrated. Each step depends on the one before it.</p>
+    </div>
+  </div>
+
+  <h3>The qualification steps</h3>
+  <div class="flow" aria-label="Qualification steps in order"><span>URS</span><i>→</i><span>DQ</span><i>→</i><span>IQ</span><i>→</i><span>OQ</span><i>→</i><span>PQ</span><i>→</i><span>Report &amp; release</span></div>
+  <div class="tw"><table>
+    <thead><tr><th>Step</th><th>Question it answers</th><th>Typical checks</th></tr></thead>
+    <tbody>
+      <tr><td>URS</td><td>What do we need?</td><td>User requirements written by the site, e.g. "keep 2–8 °C, alarm to QA, 21 m³ capacity".</td></tr>
+      <tr><td>DQ</td><td>Will the design meet our needs?</td><td>Review the supplier's design and drawings against the URS.</td></tr>
+      <tr><td>IQ</td><td>Is it installed correctly?</td><td>Model and serial numbers, drawings, utilities, materials, calibration certificates, manuals, software version.</td></tr>
+      <tr><td>OQ</td><td>Does it work across its operating range?</td><td>Each function, set points, alarms, interlocks, power failure and restart, user access.</td></tr>
+      <tr><td>PQ</td><td>Does it perform in real use, every time?</td><td>Real or simulated product, normal operators, repeated runs over time.</td></tr>
+    </tbody>
+  </table></div>
+  <div class="box ok">
+    <b class="t">Interview tip</b>
+    <p>A common first question is "What is the difference between commissioning and qualification?" A good short answer: commissioning is the engineering check that the equipment is installed and works as designed; qualification is the QA-approved, documented proof that it is fit for its GMP use. Good commissioning records can often be reused in qualification, which avoids testing the same thing twice.</p>
+  </div>
+</section>
+
+<!-- LESSON 3 -->
+<section class="lesson" id="l3">
+  <span class="num">Lesson 3</span>
+  <h2>One example, start to finish: a new vaccine cold room</h2>
+  <p>A site buys a new cold room to store vaccines at 2–8 °C. Here is what really happens, in order, and who does it.</p>
+  <ol>
+    <li><strong>URS</strong> (user and QA): temperature range 2–8 °C, capacity, alarm to the monitoring system, backup power, access control.</li>
+    <li><strong>Supplier selection and DQ</strong> (engineering, C&amp;Q): check the proposed design meets every URS line.</li>
+    <li><strong>FAT</strong> at the supplier (commissioning): test the control panel and refrigeration unit before shipping.</li>
+    <li><strong>Installation and SAT</strong> on site (commissioning): panels assembled, power and network connected, refrigeration started, alarms wired.</li>
+    <li><strong>Calibration</strong> (metrology): every temperature probe compared with a certified reference; certificates filed.</li>
+    <li><strong>IQ</strong> (C&amp;Q): check model and serial numbers, drawings "as built", calibration certificates, software version of the controller.</li>
+    <li><strong>OQ</strong> (C&amp;Q): set point holds; high and low alarms trigger at the right values; door-open alarm works; after a power cut the room restarts and the alarm is recorded.</li>
+    <li><strong>Temperature mapping / PQ</strong> (C&amp;Q, validation): many calibrated loggers placed in corners, near the door and at different heights, empty and loaded, over several days, to find hot and cold spots.</li>
+    <li><strong>CSV</strong> (CSV engineer): the monitoring software that stores temperatures and sends alarms is validated: user access, audit trail, alarms, backup and restore.</li>
+    <li><strong>Deviations</strong> (everyone): if a test fails, it is recorded, investigated, fixed and re-tested. Nothing is hidden.</li>
+    <li><strong>Summary report and release</strong> (QA approves): the room may now be used for vaccines.</li>
+    <li><strong>Keep it qualified</strong>: periodic calibration, change control for any modification, periodic review.</li>
+  </ol>
+  <div class="box">
+    <b class="t">Notice</b>
+    <p>All five key words appear in this one project. Calibration of probes, commissioning (FAT/SAT), qualification (IQ/OQ/PQ), validation of the software, and verification inside every single test step.</p>
+  </div>
+</section>
+
+<!-- LESSON 4 -->
+<section class="lesson" id="l4">
+  <span class="num">Lesson 4</span>
+  <h2>Documents and signatures</h2>
+  <p>Most of the job is planning, executing and documenting tests. These are the documents you will write, execute or review.</p>
+  <div class="tw"><table>
+    <thead><tr><th>Document</th><th>What it is for</th></tr></thead>
+    <tbody>
+      <tr><td>VMP</td><td>Validation Master Plan: the site's overall approach and list of what must be validated.</td></tr>
+      <tr><td>Validation plan</td><td>Scope, responsibilities, deliverables and acceptance criteria for one project.</td></tr>
+      <tr><td>URS / FS / DS</td><td>User requirements, functional specification, design specification.</td></tr>
+      <tr><td>Risk assessment</td><td>Finds what could go wrong and decides where to test more (often FMEA).</td></tr>
+      <tr><td>Protocols (IQ/OQ/PQ)</td><td>Test scripts: step, expected result, actual result, pass/fail, signature, date.</td></tr>
+      <tr><td>Traceability matrix</td><td>Shows every requirement is covered by a test.</td></tr>
+      <tr><td>Deviation</td><td>Record of a test failure or unexpected event, its investigation and fix.</td></tr>
+      <tr><td>Summary report</td><td>Results, open points and the conclusion: fit for use or not.</td></tr>
+      <tr><td>Change control</td><td>Approval process for any later change, so the validated state is kept.</td></tr>
+    </tbody>
+  </table></div>
+  <h3>Good documentation practice (GDP)</h3>
+  <p>An inspector must be able to trust every line. These habits are expected from day one:</p>
+  <ul>
+    <li>Write in permanent ink, never pencil. Record results <strong>at the time</strong> you do the test, not later from memory.</li>
+    <li>To correct a mistake: one single line through it, so it stays readable, then write the correct value, your initials, the date and a short reason. No correction fluid, no overwriting.</li>
+    <li>Never leave a blank field: write N/A with initials and date, or draw a line through empty space.</li>
+    <li>Sign only for work you did or checked yourself. Never sign for a colleague.</li>
+    <li>Attach evidence (printouts, screenshots) and label each one so it can be traced to the test step.</li>
+  </ul>
+  <div class="box">
+    <b class="t">ALCOA+ in one line each</b>
+    <ul>
+      <li><strong>Attributable</strong>: we know who did it. <strong>Legible</strong>: anyone can read it.</li>
+      <li><strong>Contemporaneous</strong>: recorded at the time. <strong>Original</strong>: the first record, or a certified copy.</li>
+      <li><strong>Accurate</strong>: correct and true. Plus <strong>Complete, Consistent, Enduring, Available</strong>.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- LESSON 5 -->
+<section class="lesson" id="l5">
+  <span class="num">Lesson 5</span>
+  <h2>Computer systems and CSV</h2>
+  <p>Almost every piece of GMP equipment is now controlled or recorded by software: PLCs and SCADA on the production line, laboratory software, LIMS, MES, ERP, building monitoring. If that software calculates a result, makes a decision or stores a GMP record, it must be validated. This is <strong>Computerized System Validation (CSV)</strong>.</p>
+  <h3>GAMP 5 software categories</h3>
+  <p>GAMP 5 sorts software by how much it is changed for your site. The more custom the software, the more testing it needs.</p>
+  <div class="tw"><table>
+    <thead><tr><th>Category</th><th>What it means</th><th>Examples</th></tr></thead>
+    <tbody>
+      <tr><td>Category 1</td><td>Infrastructure software</td><td>Operating systems, databases, antivirus.</td></tr>
+      <tr><td>Category 3</td><td>Standard software used as supplied</td><td>Firmware of a balance or pH meter, simple instrument software.</td></tr>
+      <tr><td>Category 4</td><td>Configured software</td><td>LIMS, SCADA, MES or ERP set up with your site's workflows and settings.</td></tr>
+      <tr><td>Category 5</td><td>Custom software</td><td>Bespoke programs, custom PLC code, macros written for the site.</td></tr>
+    </tbody>
+  </table></div>
+  <p>(Category 2 existed in older versions of GAMP and is no longer used.)</p>
+  <h3>What a CSV test typically checks</h3>
+  <ul>
+    <li><strong>Access control</strong>: every user has their own login; roles limit what they can do; no shared accounts.</li>
+    <li><strong>Audit trail</strong>: every create, change or delete of GMP data is recorded with who, when, old value, new value and reason, and cannot be switched off by users.</li>
+    <li><strong>Electronic signatures</strong>: linked to the person and the record, with meaning (for example "approved").</li>
+    <li><strong>Data</strong>: correct calculations, reports, and transfer between systems.</li>
+    <li><strong>Backup and restore</strong>: data can be restored completely after a failure.</li>
+    <li><strong>Alarms and interfaces</strong>: messages reach the right place and the right people.</li>
+  </ul>
+  <div class="box ok">
+    <b class="t">Practical example</b>
+    <p>Test step: "Log in as an operator. Change the cold room alarm limit from 8.0 to 9.0 °C." Expected result: the system refuses, because only the administrator role may change alarm limits. Then log in as administrator, change it with a reason, and check the audit trail shows user, date, time, old value 8.0, new value 9.0 and the reason.</p>
+  </div>
+</section>
+
+<!-- LESSON 6 -->
+<section class="lesson" id="l6">
+  <span class="num">Lesson 6</span>
+  <h2>Validation roles: which one is yours?</h2>
+  <p>Job titles vary between companies, but most validation jobs fall into these families. Read what each one really does every day, then use the short guide at the end to choose where to start.</p>
+
+  <div class="role">
+    <h3>C&amp;Q engineer (Commissioning &amp; Qualification)</h3>
+    <p class="sub">Equipment, utilities and rooms: from installation to "ready for GMP use".</p>
+    <dl>
+      <dt>Daily work</dt><dd>Walk-downs on site, FAT/SAT with suppliers, writing and executing IQ/OQ protocols, checking drawings and calibration certificates, handling punch lists and deviations.</dd>
+      <dt>Works on</dt><dd>Process equipment (reactors, autoclaves, filling lines), utilities (purified water, compressed air, HVAC), cleanrooms, cold rooms.</dd>
+      <dt>Key skills</dt><dd>Reading P&amp;IDs and electrical drawings, mechanical and instrumentation basics, GDP, organised test execution.</dd>
+      <dt>Good fit if</dt><dd>You come from mechanical, electrical, instrumentation or maintenance work and like being on the shop floor.</dd>
+    </dl>
+  </div>
+
+  <div class="role">
+    <h3>CQV engineer (Commissioning, Qualification &amp; Validation)</h3>
+    <p class="sub">C&amp;Q plus the "V": validating the processes that run on the equipment.</p>
+    <dl>
+      <dt>Daily work</dt><dd>Everything a C&amp;Q engineer does, plus PQ, temperature mapping, and support to process, cleaning or sterilisation validation. Often works on large new-plant projects.</dd>
+      <dt>Works on</dt><dd>Whole production areas, from design review to the first commercial batches.</dd>
+      <dt>Key skills</dt><dd>C&amp;Q skills, risk assessment, understanding of the manufacturing process, coordinating with production and QA.</dd>
+      <dt>Good fit if</dt><dd>You want a wide view of the plant and like project work with many teams. A common next step after a C&amp;Q role.</dd>
+    </dl>
+  </div>
+
+  <div class="role">
+    <h3>CSV engineer (Computerized System Validation)</h3>
+    <p class="sub">Software and data: proving computer systems are reliable and compliant.</p>
+    <dl>
+      <dt>Daily work</dt><dd>Writing validation plans, URS and risk assessments for software, preparing and executing test scripts, traceability matrices, summary reports, periodic and user access reviews.</dd>
+      <dt>Works on</dt><dd>LIMS, MES, ERP, laboratory software, quality systems, monitoring systems, spreadsheets.</dd>
+      <dt>Key skills</dt><dd>GAMP 5, Part 11 and Annex 11, data integrity (ALCOA+), clear technical writing, basic IT knowledge (users, databases, backups, networks).</dd>
+      <dt>Good fit if</dt><dd>You come from IT, software testing, or a scientific background and like structured documentation work.</dd>
+    </dl>
+  </div>
+
+  <div class="role">
+    <h3>CSV automation engineer</h3>
+    <p class="sub">Where CSV meets the production line: control systems and industrial software.</p>
+    <dl>
+      <dt>Daily work</dt><dd>Validating PLC, SCADA, DCS, batch and historian systems: functional tests of sequences, alarms, interlocks and recipes; audit trail and user access on the HMI; backup and restore of controller programs; supporting FAT/SAT of control systems.</dd>
+      <dt>Works on</dt><dd>Systems such as Siemens, Rockwell, AVEVA or Emerson control platforms on production and utility equipment.</dd>
+      <dt>Key skills</dt><dd>Automation basics (I/O, tags, PLC logic, networks such as OPC UA or Modbus) plus GAMP 5 and data integrity.</dd>
+      <dt>Good fit if</dt><dd>You come from automation, electronics or instrumentation. This profile is hard to find, so it is in demand.</dd>
+    </dl>
+  </div>
+
+  <div class="role">
+    <h3>QA-CSV / QA validation</h3>
+    <p class="sub">The quality side: reviewing and approving validation work, not executing it.</p>
+    <dl>
+      <dt>Daily work</dt><dd>Reviewing and approving plans, protocols, deviations and reports; checking GDP and data integrity; approving change controls; supporting audits and inspections; writing or updating SOPs.</dd>
+      <dt>Works on</dt><dd>All validation deliverables on site, for equipment, processes and computer systems.</dd>
+      <dt>Key skills</dt><dd>Strong regulatory knowledge, critical review, clear decisions, communication with inspectors and project teams.</dd>
+      <dt>Good fit if</dt><dd>You like quality systems and decisions more than hands-on testing. Usually needs some validation experience first.</dd>
+    </dl>
+  </div>
+
+  <h3>Side by side</h3>
+  <div class="tw"><table>
+    <thead><tr><th>Role</th><th>Main focus</th><th>On site or desk</th><th>Best background</th></tr></thead>
+    <tbody>
+      <tr><td>C&amp;Q</td><td>Equipment, utilities, rooms</td><td>Mostly on site</td><td>Mechanical, electrical, instrumentation</td></tr>
+      <tr><td>CQV</td><td>C&amp;Q plus process validation support</td><td>On site and office</td><td>Engineering, pharma process</td></tr>
+      <tr><td>CSV</td><td>Software, data integrity</td><td>Mostly office</td><td>IT, testing, science</td></tr>
+      <tr><td>CSV automation</td><td>PLC, SCADA, DCS validation</td><td>Mixed</td><td>Automation, electronics</td></tr>
+      <tr><td>QA-CSV / QA validation</td><td>Review and approval</td><td>Office</td><td>Quality, some validation experience</td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="box ok">
+    <b class="t">How to choose your starting point</b>
+    <ul>
+      <li>You enjoy machines, tools and being on the floor → start in <strong>C&amp;Q</strong>, grow into <strong>CQV</strong>.</li>
+      <li>You enjoy software, testing and structured documents → start in <strong>CSV</strong>.</li>
+      <li>You know PLCs or SCADA → go straight for <strong>CSV automation</strong>; your background is your advantage.</li>
+      <li>You like rules, reviews and decisions → aim for <strong>QA validation</strong> after one or two years of hands-on work.</li>
+    </ul>
+    <p>Whatever you choose, the basics in lessons 1 to 5 are the same for all of them.</p>
+  </div>
+</section>
+
+<!-- LESSON 7 -->
+<section class="lesson" id="l7">
+  <span class="num">Lesson 7</span>
+  <h2>Your first weeks on site</h2>
+  <p>Practical habits that make new validation engineers trusted quickly.</p>
+  <ol>
+    <li><strong>Read the site SOPs first</strong>: validation, GDP, deviations and change control. Every site does things slightly differently.</li>
+    <li><strong>Walk the area</strong> with the drawings in hand. Find the equipment, the tags and the panels you will test.</li>
+    <li><strong>Read the URS before the protocol.</strong> If you understand why a requirement exists, your testing is better.</li>
+    <li><strong>Check calibration dates</strong> of every instrument you use for testing before you start.</li>
+    <li><strong>Pre-check</strong> (dry run) a test before the official execution, so the real run is clean.</li>
+    <li><strong>Raise a deviation</strong> as soon as something does not match. Hiding or "fixing quietly" is the worst mistake in this job.</li>
+    <li><strong>Keep your evidence organised</strong> every day: numbered, labelled, linked to the test step.</li>
+    <li><strong>Ask questions.</strong> In validation, asking is a sign of a careful engineer, not a weak one.</li>
+  </ol>
+  <div class="box">
+    <b class="t">Next step</b>
+    <p>Check what you have learned with the free beginner CSV quiz, then come back for the intermediate level when it opens.</p>
+  </div>
+  <div class="cta"><a class="btn solid" href="quiz.html">Take the beginner quiz</a><a class="btn" href="index.html#contact">Ask a question</a></div>
+</section>
+
+    </article>
+  </div>
+</div></main>
+
+<footer><div class="wrap">© 2026 Vijayakumar Chinnamuthu · <a href="index.html">Qualification &amp; Validation</a> · This tutorial is general training material; always follow your site's own SOPs.</div></footer>
+</body>
+</html>

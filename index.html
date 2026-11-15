@@ -104,13 +104,26 @@ footer{padding:18px max(5vw,16px);font-size:14px;color:var(--mut)}
 @media(max-width:900px){.top,.about,.skills,.contact .grid{grid-template-columns:minmax(0,1fr)}.proj{grid-template-columns:minmax(0,1fr)}}
 @media(max-width:640px){.cards{grid-template-columns:minmax(0,1fr)}.fig{display:none}.vlist{display:block}.strip{position:static}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}#tok{display:none}}
+.ltabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:24px}
+.ltab{min-height:44px;padding:8px 16px;border:2px solid var(--line);border-radius:4px;background:var(--bg);color:var(--ink);font:600 15px Inter,sans-serif;display:inline-flex;align-items:center;gap:8px;cursor:pointer}
+.ltab[aria-selected=true]{border-color:var(--co);background:var(--co);color:#fff}
+.ltab small{font-weight:500;font-size:13px;padding:1px 7px;border-radius:3px;background:var(--zone);color:var(--mut)}
+.ltab[aria-selected=true] small{background:rgba(255,255,255,.2);color:#fff}
+.ltab:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
+.lessons{margin:0;padding:0;list-style:none;counter-reset:l;max-width:860px}
+.lessons li{counter-increment:l;display:grid;grid-template-columns:2.6em minmax(0,1fr);column-gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}
+.lessons li::before{content:counter(l);grid-row:span 2;width:2em;height:2em;border-radius:50%;background:var(--zone);color:var(--co);font:600 15px "Space Grotesk",sans-serif;display:flex;align-items:center;justify-content:center}
+.lessons b{font-family:"Space Grotesk",sans-serif;font-size:18px;font-weight:600}
+.lessons b a{color:var(--ink);text-decoration:none}
+.lessons b a:hover{color:var(--co);text-decoration:underline}
+.lessons span{color:var(--mut);font-size:15px}
 </style>
 </head>
 <body>
 <div class="strip"><div class="wrap">
   <b><a href="#home">Vijayakumar Chinnamuthu</a></b>
   <nav aria-label="Main">
-    <a href="#about">About</a><a href="#experience">Experience</a><a href="#skills">Skills</a><a href="#projects">Projects</a><a href="#services">Services</a><a href="quiz.html">Quiz</a><a href="#contact">Contact</a>
+    <a href="#about">About</a><a href="#experience">Experience</a><a href="#skills">Skills</a><a href="#tutorial">Tutorial</a><a href="#services">Services</a><a href="quiz.html">Quiz</a><a href="#contact">Contact</a>
   </nav>
 </div></div>
 
@@ -191,6 +204,7 @@ footer{padding:18px max(5vw,16px);font-size:14px;color:var(--mut)}
   </div>
 </div></section>
 
+<!-- PROJECTS section hidden for now (to be added back later). To restore: remove these comment markers, put "projects" back in the ids list at the bottom, and add the Projects link in the menu.
 <section id="projects" class="view band"><div class="wrap">
   <h2 class="sec">Projects &amp; tools</h2>
   <p class="intro">Side projects where I use code to make validation work faster and more reliable.</p>
@@ -198,6 +212,53 @@ footer{padding:18px max(5vw,16px);font-size:14px;color:var(--mut)}
     <article class="card"><span class="tag">Python</span><h3>IQ automation tool</h3><p>A portfolio tool that automates installation qualification checks and records the results.</p><a href="https://github.com/vijaychinnamuthu81">View on GitHub</a></article>
     <article class="card"><span class="tag">In progress</span><h3>Audit-trail review assistant</h3><p>Reads an audit-trail export and flags data-integrity risks against ALCOA+, such as missing change reasons and deletions. Built for the GeeksforGeeks × OpenAI "Build with Codex" program.</p><a href="https://github.com/vijaychinnamuthu81">View on GitHub</a></article>
     <article class="card"><span class="tag">Python · OPC UA</span><h3>Endurance test tool</h3><p>Built the Python tool to run OPC UA endurance tests with configurable duration.</p></article>
+  </div>
+</div></section>
+-->
+
+<section id="tutorial" class="view band"><div class="wrap">
+  <h2 class="sec">CSV tutorial</h2>
+  <p class="intro">A free, step-by-step path into computerized system validation. Start with the basics, then move up a level when you're ready.</p>
+  <div class="ltabs" role="tablist" aria-label="Tutorial level">
+    <button class="ltab" role="tab" id="t-b" aria-controls="p-b" aria-selected="true">Beginner</button>
+    <button class="ltab" role="tab" id="t-i" aria-controls="p-i" aria-selected="false" tabindex="-1">Intermediate <small>Coming soon</small></button>
+    <button class="ltab" role="tab" id="t-a" aria-controls="p-a" aria-selected="false" tabindex="-1">Advanced <small>Coming soon</small></button>
+  </div>
+
+  <div class="lpanel" role="tabpanel" id="p-b" aria-labelledby="t-b">
+    <p class="intro" style="margin-bottom:20px">For people new to CSV: quality, IT and engineering staff, students and career changers.</p>
+    <ol class="lessons">
+      <li><b><a href="beginner.html#l1">Why pharma validates</a></b><span>Patient safety, GMP and what inspectors expect.</span></li>
+      <li><b><a href="beginner.html#l2">The five key words</a></b><span>Validation, commissioning, qualification, calibration and verification, each with a simple example.</span></li>
+      <li><b><a href="beginner.html#l3">One example, start to finish</a></b><span>A new vaccine cold room, from URS to release.</span></li>
+      <li><b><a href="beginner.html#l4">Documents and signatures</a></b><span>Protocols, deviations, reports, good documentation practice and ALCOA+.</span></li>
+      <li><b><a href="beginner.html#l5">Computer systems and CSV</a></b><span>GAMP 5 categories, audit trail, access control, backup and restore.</span></li>
+      <li><b><a href="beginner.html#l6">Validation roles: which is yours?</a></b><span>C&amp;Q, CQV, CSV, CSV automation and QA-CSV: what each one does, and how to choose.</span></li>
+      <li><b><a href="beginner.html#l7">Your first weeks on site</a></b><span>Practical habits that make new engineers trusted quickly.</span></li>
+    </ol>
+    <div class="cta"><a class="btn solid" href="beginner.html">Start the beginner tutorial</a><a class="btn" href="quiz.html">Test yourself: beginner quiz</a></div>
+  </div>
+
+  <div class="lpanel" role="tabpanel" id="p-i" aria-labelledby="t-i" hidden>
+    <p class="intro" style="margin-bottom:20px"><strong>Coming soon.</strong> For people who have taken part in a validation project and want to run one.</p>
+    <ol class="lessons">
+      <li><b>Risk assessment in practice</b><span>FMEA, critical functions and choosing what to test.</span></li>
+      <li><b>Writing and executing test scripts</b><span>Expected results, evidence, good documentation practice.</span></li>
+      <li><b>Deviations, CAPA and change control</b><span>Handling what goes wrong and keeping systems validated.</span></li>
+      <li><b>Supplier assessment</b><span>Using supplier documentation and testing to avoid duplicate work.</span></li>
+      <li><b>Periodic review and user access review</b><span>Keeping the validated state during operation.</span></li>
+    </ol>
+  </div>
+
+  <div class="lpanel" role="tabpanel" id="p-a" aria-labelledby="t-a" hidden>
+    <p class="intro" style="margin-bottom:20px"><strong>Coming soon.</strong> For experienced practitioners and validation leads.</p>
+    <ol class="lessons">
+      <li><b>Audit-trail review</b><span>What to review, how often, and how to document it.</span></li>
+      <li><b>Computer software assurance (CSA)</b><span>Critical thinking and lighter, risk-based testing.</span></li>
+      <li><b>Validation in agile projects</b><span>Building validation into sprints and releases.</span></li>
+      <li><b>Cloud, SaaS and AI systems</b><span>New risks and how to control them.</span></li>
+      <li><b>Inspection readiness</b><span>Presenting validation evidence to EMA and FDA inspectors.</span></li>
+    </ol>
   </div>
 </div></section>
 
@@ -284,7 +345,7 @@ draw();
 </script>
 <script>
 {
-const ids=['home','about','experience','skills','projects','services','contact'];
+const ids=['home','about','experience','skills','tutorial','services','contact'];
 const route=()=>{
   const h=location.hash.slice(1),id=ids.includes(h)?h:'home';
   ids.forEach(v=>document.getElementById(v).classList.toggle('on',v===id));
@@ -293,6 +354,13 @@ const route=()=>{
 };
 window.addEventListener('hashchange',route);
 route();
+}
+</script>
+<script>
+{
+const tabs=[...document.querySelectorAll('.ltab')];
+const pick=t=>{tabs.forEach(x=>{const on=x===t;x.setAttribute('aria-selected',on);x.tabIndex=on?0:-1;document.getElementById(x.getAttribute('aria-controls')).hidden=!on;});};
+tabs.forEach((t,i)=>{t.addEventListener('click',()=>pick(t));t.addEventListener('keydown',e=>{const d=e.key==='ArrowRight'?1:e.key==='ArrowLeft'?-1:0;if(d){const n=tabs[(i+d+tabs.length)%tabs.length];pick(n);n.focus();}});});
 }
 </script>
 </body>
